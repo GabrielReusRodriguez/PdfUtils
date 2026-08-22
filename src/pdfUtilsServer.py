@@ -7,43 +7,9 @@ import re
 
 import base64
 from PyPDF2 import PdfMerger
-#from base64 import b64encode
-#from base64 import b64decode
 from io import StringIO
 from io import BytesIO
 
-
-#https://pypdf2.readthedocs.io/en/latest/
-
-
-@method
-def merge(*args):
-    
-    ref = []
-
-@method
-def ping() -> Result:
-    return Success(True)
-
-@method
-def validEmail(email) -> Result:    
-    if email == "":
-        return Error(code=123, message="Empty email provided")
-    if re.match("^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-z]{1,3}$", email):    
-        return Success(True)
-    else:
-        return Success(False)
-
-
-@method
-def validZipCode(zip) -> Result: 
-    if zip == "":
-        return InvalidParams("Null value")
-    if re.match("^[0-9]{5}(?:-[0-9]{4})?$", zip):
-        result = { "zip": zip, "result" : "Valid Zipcode" }
-    else:
-        result = { "zip": zip, "result" : "Invalid Zipcode" }
-    return Success(result)
 
 def _b64Decode(b64String):
     base64_bytes = b64String.encode('ascii')
@@ -84,7 +50,6 @@ def mergePdf( lista_b64Pdfs = [] ) -> Result:
 def main():
 
     puerto = 2202
-   #Ponemos 0.0.0.0 de host para que acepte peticiones de todas las interficies del Docker.
     host = "0.0.0.0"
 
     print("Iniciando server\n")
