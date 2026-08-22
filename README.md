@@ -52,7 +52,6 @@ Ejemplo usando dos archivos locales:
 ```bash
 PDF1=$(base64 -w0 primer.pdf)
 PDF2=$(base64 -w0 segundo.pdf)
-
 curl -X POST http://127.0.0.1 \
   -H 'Content-Type: application/json' \
   -d "{\"jsonrpc\":\"2.0\",\"method\":\"mergePdf\",\"params\":{\"lista_b64Pdfs\":[{\"pdf\":\"$PDF1\"},{\"pdf\":\"$PDF2\"}]},\"id\":1}"
@@ -79,23 +78,35 @@ echo '<PDF codificado en Base64>' | base64 -d > resultado.pdf
 
 ## Tests
 
-La suite usa `unittest` y comprueba la conversión Base64, la unión de páginas y la validación de una entrada vacía.
+La suite usa `pytest` y comprueba la conversión Base64, la unión de páginas y la validación de una entrada vacía.
 
 Ejecutarla dentro de Docker sin necesidad de instalar dependencias en el equipo host:
 
 ```bash
 docker compose run --rm -T \
-  -v "$PWD/tests:/tests:ro" \
-  pdfutils python3 -m unittest discover -s /tests -v
+  -e PYTHONPATH=/usr/src/pdfUtils \
+  -v "$PWD/tests:/usr/src/pdfUtils/tests:ro" \
+  pdfutils pytest -v
 ```
+
+Para instalar las dependencias en un entorno Python local:
+
+```bash
+python3 -m pip install -r requirements.txt
+pytest -v
+```
+
+La configuración de pytest se encuentra en `pyproject.toml`. Define `src` como ruta de importación y `tests` como directorio de descubrimiento.
 
 ## Estructura
 
 ```text
 Dockerfile              Imagen Docker del servicio
 compose.yaml            Configuración de Docker Compose
+pyproject.toml          Metadatos del proyecto y configuración de pytest
 requirements.txt        Dependencias Python
 src/pdfUtilsServer.py   Servidor JSON-RPC
 tests/                  Tests automatizados
 scripts/                Scripts de prueba manuales
+.github/workflows/      Workflows de integración continua
 ```
