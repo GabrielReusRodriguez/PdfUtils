@@ -3,23 +3,18 @@
 # -*- coding: utf-8 -*-
 
 from jsonrpcserver import Success, method, serve, InvalidParams, Result, Error
-import re
 
 import base64
 from PyPDF2 import PdfMerger
-from io import StringIO
 from io import BytesIO
 
 
 def _b64Decode(b64String):
     base64_bytes = b64String.encode('ascii')
     message_bytes = base64.b64decode(base64_bytes)
-    #message = message_bytes.decode('ascii')
-    #return message
     return message_bytes
 
 def _b64Encode(message_bytes):
-    #message_bytes = string.encode('ascii')
     base64_bytes = base64.b64encode(message_bytes)
     base64_message = base64_bytes.decode('ascii')
     return base64_message
@@ -35,11 +30,9 @@ def mergePdf( lista_b64Pdfs = [] ) -> Result:
     
     for b64Pdf in lista_b64Pdfs:
         bytesPdf = _b64Decode(b64Pdf["pdf"])
-       # streamPdf = StringIO(bytesPdf)
         streamPdf = BytesIO(bytesPdf)
         merger.append(streamPdf)
 
-    #stream_pdf_Final = StringIO()
     stream_pdf_Final = BytesIO()
     merger.write(stream_pdf_Final)
     merger.close()
