@@ -110,3 +110,7 @@ tests/                  Tests automatizados
 scripts/                Scripts de prueba manuales
 .github/workflows/      Workflows de integración continua
 ```
+
+## Licencia
+
+PdfUtils se distribuye bajo la licencia **GNU General Public License v3.0 (GPL-3.0)**. Consulta el archivo [LICENSE](LICENSE) para conocer los términos completos.
