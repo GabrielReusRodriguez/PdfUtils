@@ -1,0 +1,9 @@
+services:
+  pdfutils:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gabriel/pdfutils:1.0
+    ports:
+      - "80:2202"
+    restart: unless-stopped
